@@ -1,79 +1,32 @@
-import pytest
-
-import inspect
-
-
-def get_current_code_info():
-  # 获取当前文件名
-  current_file = inspect.getfile(inspect.currentframe())
-
-  # 获取当前类名（如果存在）
-  current_class = None
-  stack = inspect.stack()
-  for frame_info in stack:
-    frame = frame_info[0]
-    if 'self' in frame.f_locals:
-      current_class = frame.f_locals['self'].__class__.__name__
-      break
-
-  # 获取调用get_current_code_info()的函数名
-  caller_frame = stack[1]
-  caller_function = inspect.getframeinfo(caller_frame[0]).function
-
-  # 构造包含信息的字典
-  code_info = {
-    'current_file': current_file,
-    'current_class': current_class,
-    'caller_function': caller_function
-  }
-
-  return code_info['caller_function']
-
-
-@pytest.fixture(
-  scope='function',
-  params=['sdffg', 'dfgf', 'ewqtrtpjd'],
-  # autouse='',
-  # ids='',
-  # name=''
-)
-def t_fixture(request):
-  print(get_current_code_info())
-  yield request.param
-  print("aba")
-
-
 class TestSetup:
   num = 0
 
   @staticmethod
   def setup_class():
-    print(get_current_code_info())
     # TestSetup.num += 1
+    pass
 
   @staticmethod
   def setup_method():
-    print(get_current_code_info())
     # TestSetup.num += 1
+    pass
 
   def test_setup(self):
-    print(get_current_code_info())
     # assert TestSetup.num == 3
+    pass
 
   def test_setup1(self):
-    print(get_current_code_info())
     # assert TestSetup.num == 3
+    pass
 
   def test_setup2(self, t_fixture):
-    print(get_current_code_info())
     print(f"...........{t_fixture}")
     assert 'w' in t_fixture
 
   def test_setup3(self):
-    print(get_current_code_info())
     # assert TestSetup.num == 3
+    pass
 
   @staticmethod
   def teardown_method():
-    print(get_current_code_info())
     print("结束!")
